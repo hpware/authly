@@ -3,6 +3,12 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 
+const args = {
+  clientID:
+    process.argv.find((arg) => arg.startsWith("--client="))?.split("=")[1] ||
+    "100",
+};
+
 const filepath = path.join(os.homedir(), ".authly", "computerId");
 const dirPath = path.dirname(filepath);
 if (!fs.existsSync(dirPath)) {
