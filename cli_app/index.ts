@@ -15,14 +15,15 @@ if (!fs.existsSync(dirPath)) {
   fs.mkdirSync(dirPath, { recursive: true });
 }
 const server = process.env.SERVER_URL;
-async function computerId() {
+function computerId() {
   try {
     if (fs.existsSync(filepath)) {
       return fs.readFileSync(filepath, "utf-8");
     }
     process.stdout.write("File does not exist! Generating a new one! \n");
-    const randomString = generateRandomString(30);
+    const randomString = generateRandomString(40);
     fs.writeFileSync(filepath, randomString);
+    return randomString;
   } catch (e) {
     console.error(e);
     process.stdout.write("\nRequest failed! Press Control+C to quit \n");
@@ -30,4 +31,22 @@ async function computerId() {
   }
 }
 
-computerId();
+async function PublishId() {
+  try {
+    const computerid = computerId();
+    const req = await fetch(`${server}/api/yourcompoter`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        computer: computerid,
+        clientID: args.clientID,
+      }),
+    });
+    const res = await req.json();
+    console.log(res);
+  } catch (e) {}
+}
+
+PublishId();

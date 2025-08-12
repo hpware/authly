@@ -11,6 +11,6 @@ export default defineNuxtConfig({
     },
   },
   routeRules: {
-    "/": { redirect: "/login" },
+    "/": { redirect: "/cap" },
   },
 });

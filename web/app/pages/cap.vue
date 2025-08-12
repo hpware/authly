@@ -18,12 +18,20 @@ onMounted(() => {
 
 const getLoginHook = () => {};
 
-const checkIfUserIsDone = async () => {};
+const checkIfUserIsDone = async () => {
+    const req = await fetch("/api/ditchcopypaste");
+    const res = await req.json();
+};
 </script>
 <template>
     <div class="flex flex-col">
+        <h2>
+            Welcome to the bottle! Please login or signup for an account! You
+            can do both here!
+        </h2>
         <span
-            >Copy and paste this to your terminal of your choice to login</span
+            >Copy and paste this to your fav terminal! dw the code is open
+            source and not malware.</span
         >
         <br />
         <code v-if="isWindows">
