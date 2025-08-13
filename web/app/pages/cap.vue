@@ -9,6 +9,11 @@ import generateRandomString from "@/lib/generateRandomString";
             process!</span
         >
         <input type="text" placeholder="Please enter your uuid" />
-        <span>Swipe your pin number!</span>
+        <span>Swipe to your pin number!</span>
+        <span
+            >You are currently on the number
+            <span class="underline text-underline">0001</span></span
+        >
+        <button>Submit</button>
     </div>
 </template>

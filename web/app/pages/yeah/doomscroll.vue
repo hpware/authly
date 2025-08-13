@@ -13,6 +13,54 @@ const videos = ref([
         likes: 0,
         notes: [],
     },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
+    {
+        id: "vOdxS-k_lac", // Example YouTube video ID
+        title: "Sample Video 1",
+        likes: 0,
+        notes: [],
+    },
     // Add more video objects as needed
 ]);
 
@@ -97,35 +145,71 @@ const checkIfUserIsDone = async () => {
         </header>
 
         <!-- Main content area -->
-        <main class="flex-1 overflow-y-hidden">
+        <main class="flex-1 overflow-hidden flex justify-center bg-black">
             <!-- Video feed -->
-            <div class="snap-y snap-mandatory h-full overflow-y-scroll">
+            <div
+                class="snap-y snap-mandatory h-full overflow-y-scroll w-full max-w-[500px]"
+            >
                 <div
                     v-for="(video, index) in videos"
                     :key="video.id"
-                    class="video-container h-screen w-full snap-start relative"
+                    class="video-container h-screen w-full snap-start relative flex justify-center"
                 >
-                    <!-- YouTube iframe -->
-                    <iframe
-                        :src="`https://www.youtube.com/embed/${video.id}?autoplay=0&controls=1&loop=1`"
-                        class="w-full h-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                    ></iframe>
+                    <!-- Video wrapper with correct aspect ratio -->
+                    <div
+                        class="relative w-full max-w-[500px] h-full flex justify-center"
+                    >
+                        <div
+                            class="w-full h-full max-h-[calc(100vh-120px)] relative"
+                        >
+                            <!-- YouTube iframe with shorts embed -->
+                            <iframe
+                                :src="`https://www.youtube.com/embed/${video.id}?rel=0&modestbranding=1&playsinline=1&enablejsapi=1&widgetid=1&controls=0&loop=1`"
+                                class="absolute inset-0 w-full h-full"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
 
-                    <!-- Interaction buttons -->
-                    <div class="absolute right-4 bottom-20 flex flex-col gap-4">
-                        <button
-                            @click="likeVideo(index)"
-                            class="bg-white/10 p-3 rounded-full hover:bg-white/20"
-                        >
-                            <span>❤️ {{ video.likes }}</span>
-                        </button>
-                        <button
-                            class="bg-white/10 p-3 rounded-full hover:bg-white/20"
-                        >
-                            💬 {{ video.notes.length }}
-                        </button>
+                            <!-- Video overlay controls -->
+                            <div class="absolute inset-0 pointer-events-none">
+                                <!-- Right sidebar controls -->
+                                <div
+                                    class="absolute right-4 bottom-20 flex flex-col gap-6 items-center pointer-events-auto"
+                                >
+                                    <button
+                                        @click="likeVideo(index)"
+                                        class="flex flex-col items-center"
+                                    >
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-full bg-white/10"
+                                        >
+                                            <span class="text-2xl">👍</span>
+                                        </div>
+                                        <span class="text-sm mt-1">{{
+                                            video.likes
+                                        }}</span>
+                                    </button>
+                                    <button class="flex flex-col items-center">
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-full bg-white/10"
+                                        >
+                                            <span class="text-2xl">💬</span>
+                                        </div>
+                                        <span class="text-sm mt-1">{{
+                                            video.notes.length
+                                        }}</span>
+                                    </button>
+                                    <button class="flex flex-col items-center">
+                                        <div
+                                            class="w-12 h-12 flex items-center justify-center rounded-full bg-white/10"
+                                        >
+                                            <span class="text-2xl">↪️</span>
+                                        </div>
+                                        <span class="text-sm mt-1">Share</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
