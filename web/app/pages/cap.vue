@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+useSeoMeta({
+    title: "Cap Login | The Bottle TODO System!",
+});
+
 import generateRandomString from "@/lib/generateRandomString";
 import DoomScroll from "@/components/doomscrolling.vue";
 </script>

@@ -3,86 +3,105 @@ import generateRandomString from "@/lib/generateRandomString";
 import { ArrowBigDownDash, ThumbsUp, Bookmark } from "lucide-vue-next";
 
 interface Video {
+    id: string;
     url: string;
     liked: boolean;
     saved: boolean;
     current: boolean;
 }
+let keepTrackOfTheIdInCaseIBrokeItLater = 0;
+
+const getId = (() => {
+    return () => ++keepTrackOfTheIdInCaseIBrokeItLater;
+})();
 
 const videos = ref<Video[]>([
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv1.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv2.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv3.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv4.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv5.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv6.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv7.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv8.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv9.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv10.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv11.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv12.mp4",
         liked: false,
         saved: false,
         current: false,
     },
     {
+        id: getId(),
         url: "https://github.yuanhau.com/authly/videos/dlv13.mp4",
         liked: false,
         saved: false,
@@ -92,7 +111,9 @@ const videos = ref<Video[]>([
 
 const currentReplayIndex = ref(0);
 const loadMoreVideos = () => {
+    console.log(currentReplayIndex.value);
     videos.value.push({
+        id: getId(),
         url: videos.value[currentReplayIndex.value].url,
         liked: false,
         saved: false,
@@ -101,8 +122,8 @@ const loadMoreVideos = () => {
     currentReplayIndex.value += 1;
 };
 
-const toggleVideo = (event: Event, url: string) => {
-    const video = videos.value.find((v) => v.url === url);
+const toggleVideo = (event: Event, id: string) => {
+    const video = videos.value.find((v) => v.id === id);
     const videoElement = event.target as HTMLVideoElement;
     if (videoElement.paused) {
         videoElement.play();
@@ -111,6 +132,16 @@ const toggleVideo = (event: Event, url: string) => {
         videoElement.pause();
         if (video) video.current = false;
     }
+};
+
+const likeVideo = (id: string) => {
+    const video = videos.value.find((v) => v.id === id);
+    if (video) video.liked = !video.liked;
+};
+
+const saveVideo = (id: string) => {
+    const video = videos.value.find((v) => v.id === id);
+    if (video) video.saved = !video.saved;
 };
 
 onMounted(() => {
@@ -129,8 +160,17 @@ onMounted(() => {
     if (lastVideoElement) {
         observer.observe(lastVideoElement);
     }
-    loadMoreVideos();
 });
+
+// TEMP SOL
+const loadMoreVideosCount = ref(0);
+const loadMoreVideosForm = (e: Event) => {
+    e.preventDefault();
+    const count = loadMoreVideosCount.value - 1;
+    for (let i = 0; i < count; i++) {
+        loadMoreVideos();
+    }
+};
 </script>
 <template>
     <div>
@@ -143,19 +183,66 @@ onMounted(() => {
                     class="text-center justify-center align-middle mx-auto w-12 h-12"
                 />
             </div>
-            <div v-for="video in videos" class="text-lg m-2">
-                <video
-                    class="max-h-screen min-w-[98wvh]"
-                    :src="video.url"
-                    loop
-                    :autoplay="video.current"
-                    @click="(event) => toggleVideo(event, video.url)"
-                />
+            <div v-for="video in videos" class="text-lg m-2" :key="video.id">
+                <div>
+                    <div class="vidcontainer">
+                        <div
+                            v-for="video in videos"
+                            :key="video.id"
+                            class="video-wrapper"
+                            :class="{ 'is-current': video.current }"
+                        >
+                            <video
+                                class="max-h-screen min-w-[98wvh]"
+                                :src="video.url"
+                                loop
+                                preload="auto"
+                                playsinline
+                                :data-current="video.current"
+                                @playing="() => handlePlaying(video.id)"
+                            />
+                        </div>
+                    </div>
+                </div>
                 <span>{{ JSON.stringify(video) }}</span>
                 <div class="flex flex-row gap-2 pl-2 py-2">
-                    <button><ThumbsUp /></button>
-                    <button><Bookmark /></button>
+                    <button
+                        @click="
+                            () => {
+                                likeVideo(video.id);
+                            }
+                        "
+                    >
+                        <ThumbsUp
+                            :class="{ 'text-black fill-red-300': video.liked }"
+                        />
+                    </button>
+                    <button
+                        @click="
+                            () => {
+                                saveVideo(video.id);
+                            }
+                        "
+                    >
+                        <Bookmark
+                            :class="{ 'text-black fill-black': video.saved }"
+                        />
+                    </button>
                 </div>
+                <!--TEMP SOL-->
+                <form
+                    @submit.prevent="loadMoreVideosForm"
+                    v-if="video.id === keepTrackOfTheIdInCaseIBrokeItLater"
+                    class="flex flex-row gap-2 m-2 p-2 pb-4"
+                >
+                    <input
+                        type="number"
+                        max="100"
+                        min="1"
+                        v-model="loadMoreVideosCount"
+                    />
+                    <button>Submit</button>
+                </form>
             </div>
         </div>
     </div>
