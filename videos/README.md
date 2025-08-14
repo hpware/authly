@@ -1,5 +1,5 @@
 # Video URLs:
-(These are in order)
+(These are NOT in order)
 
 https://www.youtube.com/shorts/rdSv4VUaXKo
 
