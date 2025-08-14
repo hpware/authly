@@ -6,9 +6,6 @@ export default defineNuxtConfig({
   css: ["~/style.css"],
   vite: {
     plugins: [tailwindcss()],
-    server: {
-      allowedHosts: ["postings-identify-thompson-cookie.trycloudflare.com"],
-    },
   },
   routeRules: {
     "/": { redirect: "/cap" },
