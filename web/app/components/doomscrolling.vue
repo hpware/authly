@@ -145,11 +145,12 @@ const saveVideo = (id: string) => {
 };
 
 onMounted(() => {
+    console.log(videos.value);
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    loadMoreVideos();
+                    //loadMoreVideos();
                 }
             });
         },
@@ -168,7 +169,8 @@ const loadMoreVideosForm = (e: Event) => {
     e.preventDefault();
     const count = loadMoreVideosCount.value - 1;
     for (let i = 0; i < count; i++) {
-        loadMoreVideos();
+        //loadMoreVideos();
+        console.log(videos.value);
     }
 };
 </script>
@@ -189,7 +191,7 @@ const loadMoreVideosForm = (e: Event) => {
                         <div
                             v-for="video in videos"
                             :key="video.id"
-                            class="video-wrapper"
+                            class="video-wrapper p-2 m-2"
                             :class="{ 'is-current': video.current }"
                         >
                             <video
