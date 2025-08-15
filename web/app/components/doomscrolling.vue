@@ -180,31 +180,22 @@ const loadMoreVideosForm = (e: Event) => {
             <div
                 class="min-h-[99dvh] min-w-[98wvh] m-1 text-center justify-center flex flex-col align-middle border rounded"
             >
-                <span>Start scrolling to get started!</span>
+                <span>Please do to password action!</span>
                 <ArrowBigDownDash
                     class="text-center justify-center align-middle mx-auto w-12 h-12"
                 />
             </div>
             <div v-for="video in videos" class="text-lg m-2" :key="video.id">
-                <div>
-                    <div class="vidcontainer">
-                        <div
-                            v-for="video in videos"
-                            :key="video.id"
-                            class="video-wrapper p-2 m-2"
-                            :class="{ 'is-current': video.current }"
-                        >
-                            <video
-                                class="max-h-screen min-w-[98wvh]"
-                                :src="video.url"
-                                loop
-                                preload="auto"
-                                playsinline
-                                :data-current="video.current"
-                                @playing="() => handlePlaying(video.id)"
-                            />
-                        </div>
-                    </div>
+                <div class="vidcontainer">
+                    <video
+                        class="max-h-screen min-w-[98wvh]"
+                        :src="video.url"
+                        loop
+                        preload="auto"
+                        playsinline
+                        :autoplay="video.current"
+                        @click="(event) => toggleVideo(event, video.id)"
+                    />
                 </div>
                 <span>{{ JSON.stringify(video) }}</span>
                 <div class="flex flex-row gap-2 pl-2 py-2">
@@ -232,7 +223,7 @@ const loadMoreVideosForm = (e: Event) => {
                     </button>
                 </div>
                 <!--TEMP SOL-->
-                <form
+                <!--<form
                     @submit.prevent="loadMoreVideosForm"
                     v-if="video.id === keepTrackOfTheIdInCaseIBrokeItLater"
                     class="flex flex-row gap-2 m-2 p-2 pb-4"
@@ -244,7 +235,7 @@ const loadMoreVideosForm = (e: Event) => {
                         v-model="loadMoreVideosCount"
                     />
                     <button>Submit</button>
-                </form>
+                    </form>-->
             </div>
         </div>
     </div>
