@@ -7,8 +7,10 @@ import generateRandomString from "@/lib/generateRandomString";
 import DoomScroll from "@/components/doomscrolling.vue";
 </script>
 <template>
-    <div class="flex flex-row absolute inset-0 max-h-screen">
-        <div class="flex flex-col max-h-full md:max-h-1/2">
+    <div class="">
+        <div
+            class="flex flex-col absolute inset-y-0 left-0 justify-center text-center w-1/2"
+        >
             <h2 class="text-xl">
                 Welcome to the bottle! Please login or signup for an account!
             </h2>
@@ -18,7 +20,7 @@ import DoomScroll from "@/components/doomscrolling.vue";
             >
             <input
                 type="text"
-                class="text-md"
+                class="text-md text-center"
                 placeholder="Please enter your uuid"
             />
             <span class="text-md">Swipe to your pin number!</span>
@@ -30,12 +32,12 @@ import DoomScroll from "@/components/doomscrolling.vue";
                 >To prevent bots, please answer the question below.</span
             >
             <span class="text-md"
-                >Who rode the polar bear (hint hint, it a old emperor of china
-                from the chieng times, and it's a meme)</span
+                >Who is the "emperor" that has rode a polar bear in a popular
+                meme?</span
             >
             <input type="text" class="text-md" />
             <button class="text-md">Submit</button>
         </div>
-        <DoomScroll />
+        <DoomScroll class="max-w-1/2 absolute inset-y-0 right-0 mr-12" />
     </div>
 </template>
