@@ -17,6 +17,15 @@ interface Video {
 }
 let keepTrackOfTheIdInCaseIBrokeItLater = 0;
 
+const emit = defineEmits(["sendData"]);
+
+watch(
+    () => videos.value,
+    () => {
+        emit("sendData", videos.value);
+    },
+);
+
 const getId = (() => {
     return () => ++keepTrackOfTheIdInCaseIBrokeItLater;
 })();
