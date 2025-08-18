@@ -1,4 +1,5 @@
 import sql from "~/lib/pg";
+import { v4 as uuidv4 } from "uuid";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   if (!body) {
@@ -53,7 +54,7 @@ export default defineEventHandler(async (event) => {
   try {
     const checkIfUserExists = await sql`
       SELECT * FROM auth
-      WHERE uuid == ${body.uuid}
+      WHERE uuid = ${body.uuid}
       `;
     if (checkIfUserExists.length > 0) {
       return {
@@ -65,12 +66,20 @@ export default defineEventHandler(async (event) => {
       INSERT INTO auth (uuid, captcha_answer, video_json_data)
       VALUES (${body.uuid}, ${body.captcha_answer}, ${body.video_json_data})
       `;
+    const auth_uuid = uuidv4();
+    await sql`
+      INSERT INTO sessions(uuid, auth_uuid, username_uuid)
+      VALUES (${uuidv4()}, ${auth_uuid}, ${body.uuid})`;
+    setCookie(event, "session", auth_uuid);
     return {
       true: "yes",
+      account: body.uuid,
     };
   } catch (e) {
+    console.log(e);
     return {
       true: "no",
+      msg: "Oh no! Something went wrong.",
     };
   }
 });

@@ -5,17 +5,36 @@ useSeoMeta({
 
 import generateRandomString from "@/lib/generateRandomString";
 import DoomScroll from "@/components/doomscrolling.vue";
+import CheckSession from "~/lib/checkSession";
+
 import { v4 as uuidv4 } from "uuid";
 
 const uuidEnter = ref();
 const captchaAnswer = ref();
 const error = ref(false);
 const errorHTML = ref();
-const videoData = ref();
+const videoData = ref([]);
+const totalVideoCount = ref(0);
+const totalLikeVideoCount = ref(0);
+const totalSaveCount = ref(0);
+const router = useRouter();
 
 const sendData = (remoteData: any) => {
     videoData.value = remoteData;
+    console.log(remoteData);
+    totalVideoCount.value = remoteData[remoteData.length - 1].id;
+    totalLikeVideoCount.value = remoteData.filter(
+        (video) => video.liked,
+    ).length;
+    totalSaveCount.value = remoteData.filter((video) => video.saved).length;
 };
+
+onMounted(async () => {
+    const checkSessionSystem = await CheckSession();
+    if (checkSessionSystem === true) {
+        router.push("/bottle/");
+    }
+});
 
 const generateUUID = () => {
     uuidEnter.value = uuidv4();
@@ -43,6 +62,25 @@ const submitSeal = async () => {
             errorHTML.value = `Huh, what even is this answer? You could've put in "idk" as the answer`;
             return;
         }
+        const req = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                uuid: uuidEnter.value,
+                captcha_answer: normalizedAnswer,
+                video_json_data: videoData.value,
+            }),
+        });
+        const res = await req.json();
+        if (res.true !== "yes") {
+            error.value = true;
+            errorHTML.value = res.msg;
+            return;
+        }
+        alert("You are signed in!");
+        router.push("/bottle/");
     } catch (e) {
     } finally {
     }
@@ -79,11 +117,23 @@ const submitSeal = async () => {
             />
             <span v-if="error" class="text-red-600">{{ errorHTML }}</span>
             <button
-                class="hover:cursor-pointer p-2 bg-gray-300 mx-auto w-fit p-2 rounded"
+                class="hover:cursor-pointer bg-gray-300 mx-auto w-fit p-2 rounded"
                 @click="submitSeal"
             >
                 Submit
             </button>
+            <div
+                class="flex flex-row justify-center text-center text-blue-700 gap-1"
+            >
+                <span>Stats!</span>
+                <span>Total Videos: {{ totalVideoCount }}</span>
+                <span>Total Likes: {{ totalLikeVideoCount }}</span>
+                <span>Total Saves: {{ totalSaveCount }}</span>
+            </div>
+            <span
+                class="text-xs text-gray-100/50 hover:text-black duration-100 transition-all"
+                >psst, open the console to see the json!</span
+            >
         </div>
         <DoomScroll
             class="max-w-1/2 absolute inset-y-0 right-0 mr-12"

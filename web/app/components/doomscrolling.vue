@@ -15,16 +15,10 @@ interface Video {
     saved: boolean;
     current: boolean;
 }
+
 let keepTrackOfTheIdInCaseIBrokeItLater = 0;
 
 const emit = defineEmits(["sendData"]);
-
-watch(
-    () => videos.value,
-    () => {
-        emit("sendData", videos.value);
-    },
-);
 
 const getId = (() => {
     return () => ++keepTrackOfTheIdInCaseIBrokeItLater;
@@ -261,6 +255,14 @@ onMounted(() => {
             });
         },
         { deep: true },
+    );
+
+    watch(
+        videos,
+        (newVideos) => {
+            emit("sendData", newVideos);
+        },
+        { deep: true, immediate: true },
     );
 
     // Start with the first video

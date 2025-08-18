@@ -5,11 +5,28 @@ useSeoMeta({
 
 import generateRandomString from "@/lib/generateRandomString";
 import DoomScroll from "@/components/doomscrolling.vue";
-const videoData = ref();
+import CheckSession from "~/lib/checkSession";
+const videoData = ref([]);
+const totalVideoCount = ref(0);
+const totalLikeVideoCount = ref(0);
+const totalSaveCount = ref(0);
+const router = useRouter();
 
 const sendData = (remoteData: any) => {
     videoData.value = remoteData;
+    console.log(remoteData);
+    totalVideoCount.value = remoteData[remoteData.length - 1].id;
+    totalLikeVideoCount.value = remoteData.filter(
+        (video) => video.liked,
+    ).length;
+    totalSaveCount.value = remoteData.filter((video) => video.saved).length;
 };
+onMounted(async () => {
+    const checkSessionSystem = await CheckSession();
+    if (checkSessionSystem === true) {
+        router.push("/bottle/");
+    }
+});
 </script>
 <template>
     <div class="">
@@ -31,20 +48,30 @@ const sendData = (remoteData: any) => {
                 class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
             />
             <input type="text" class="text-md text-center" />
-            <span class="text-md">Swipe to your pin number!</span>
-            <span class="text-md"
-                >You are currently on the number
-                <span class="underline text-underline">0001</span></span
-            >
             <span class="text-md"
                 >To prevent bots, please answer the question below.</span
             >
-            <span class="text-md"
+            <span class="text-sm"
                 >Who is the "emperor" that has rode a polar bear in a popular
                 meme?</span
             >
-            <input type="text" class="text-md" />
+            <input
+                type="text"
+                class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+            />
             <button class="text-md">Submit</button>
+            <div
+                class="flex flex-row justify-center text-center text-blue-700 gap-1"
+            >
+                <span>Stats!</span>
+                <span>Total Videos: {{ totalVideoCount }}</span>
+                <span>Total Likes: {{ totalLikeVideoCount }}</span>
+                <span>Total Saves: {{ totalSaveCount }}</span>
+            </div>
+            <span
+                class="text-xs text-gray-100/50 hover:text-black duration-100 transition-all"
+                >psst, open the console to see the json!</span
+            >
         </div>
         <DoomScroll
             class="max-w-1/2 absolute inset-y-0 right-0 mr-12"
