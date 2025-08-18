@@ -258,7 +258,7 @@ onMounted(() => {
     );
 
     watch(
-        videos,
+        videos.value,
         (newVideos) => {
             emit("sendData", newVideos);
         },

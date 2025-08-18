@@ -24,3 +24,5 @@ create table if not exists bottle (
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 )
 `;
+
+process.exit(0);
