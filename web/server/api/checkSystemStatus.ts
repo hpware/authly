@@ -13,15 +13,18 @@ export default defineEventHandler(async (event) => {
     if (checkSession.length > 0) {
       return {
         true: "yes",
+        user: checkSession[0].username_uuid,
       };
     }
     return {
       true: "no",
+      user: null,
     };
   } catch (e) {
     console.error(e);
     return {
       true: "no",
+      user: null,
     };
   }
 });

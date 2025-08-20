@@ -11,6 +11,8 @@ const totalVideoCount = ref(0);
 const totalLikeVideoCount = ref(0);
 const totalSaveCount = ref(0);
 const router = useRouter();
+const uuid_data = ref();
+const captcha_data = ref();
 
 const sendData = (remoteData: any) => {
     videoData.value = remoteData;
@@ -27,6 +29,37 @@ onMounted(async () => {
         router.push("/bottle/");
     }
 });
+
+const submitData = async () => {
+    if (
+        !(
+            captcha_data.value &&
+            uuid_data.value &&
+            uuid_data.value.match(
+                /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i,
+            )
+        )
+    ) {
+        // switch to text instead of alert
+        alert("No data or data error ig!");
+        return;
+    }
+    const req = await fetch("/api/ditchcopypaste", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            username: uuid_data.value,
+            captcha_data: captcha_data.value,
+            video_json_data: videoData.value,
+        }),
+    });
+    if (!req.ok) {
+        alert("idk");
+        return;
+    }
+};
 </script>
 <template>
     <div class="">
@@ -46,6 +79,7 @@ onMounted(async () => {
             <input
                 type="text"
                 class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                v-model="uuid_data"
             />
             <input type="text" class="text-md text-center" />
             <span class="text-md"
@@ -58,8 +92,9 @@ onMounted(async () => {
             <input
                 type="text"
                 class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                v-model="captcha_data"
             />
-            <button class="text-md">Submit</button>
+            <button class="text-md" @click="submitData">Submit</button>
             <div
                 class="flex flex-row justify-center text-center text-blue-700 gap-1"
             >
