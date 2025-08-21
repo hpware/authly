@@ -16,3 +16,6 @@ The json format looks something like this:
 
 }
 ```
+
+## About
+This is a super basic TODO app with a login system that matches the doomscrolling video JSON blob. This includes, the current video playing, the likes per video, and the saves, as well as how many videos you scroll, this can be 15 to unlimited! We also use UUID's as usernames to add more random-ness.

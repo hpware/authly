@@ -7,7 +7,6 @@ export default defineEventHandler(async (event) => {
   // check user stuff
   const userData = await sql``;
   if (userData.length === 0) {
-    
   }
   // submit session
   await sql``;
