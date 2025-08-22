@@ -82,6 +82,7 @@ const submitSeal = async () => {
         alert("You are signed in!");
         router.push("/bottle/");
     } catch (e) {
+        console.error(e);
     } finally {
     }
 };

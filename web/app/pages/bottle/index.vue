@@ -43,13 +43,29 @@ const logoutAction = async () => {
                 Submit!
             </button>
         </div>
-        <table>
-            <thead>
+        <table class="flex flex-col">
+            <thead class="flex flex-row">
                 <tr>
-                    AAAAA
+                    AAAAAdf dw
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody class="flex flex-row">
+                <tr>
+                    AAAAAcdocdcd
+                </tr>
+                <tr>
+                    AAAAAcdocdcd
+                </tr>
+                <tr>
+                    AAAAAcdocdcd
+                </tr>
+                <tr>
+                    AAAAAcdocdcd
+                </tr>
+                <tr>
+                    AAAAAcdocdcd
+                </tr>
+            </tbody>
         </table>
     </div>
 </template>

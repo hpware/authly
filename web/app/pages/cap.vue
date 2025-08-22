@@ -40,7 +40,7 @@ const submitData = async () => {
             )
         )
     ) {
-        // switch to text instead of alert
+        // switch to text instead of alert pls
         alert("No data or data error ig!");
         return;
     }
