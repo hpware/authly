@@ -1,6 +1,12 @@
 export default defineEventHandler((event) => {
-  deleteCookie(event, "session");
-  return {
-    true: "yes",
-  };
+  try {
+    deleteCookie(event, "session");
+    return {
+      true: "yes",
+    };
+  } catch (e) {
+    return {
+      true: "no",
+    };
+  }
 });

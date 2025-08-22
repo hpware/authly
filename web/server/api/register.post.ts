@@ -5,6 +5,7 @@ export default defineEventHandler(async (event) => {
   if (!body) {
     return {
       true: "no",
+      msg: "This request does not include any of your secrets 😔",
     };
   }
   const isValidUUID = (uuid: string) => {
@@ -34,6 +35,7 @@ export default defineEventHandler(async (event) => {
     "qin shi huangdi",
     "qinshihuangdi",
     "idk",
+    "🐻‍❄️",
   ];
 
   if (
@@ -48,7 +50,7 @@ export default defineEventHandler(async (event) => {
   } else {
     return {
       true: "no",
-      msg: "Whoops! Your data is incompelete.",
+      msg: "Whoops! You have seriously just entered something wrong!",
     };
   }
   try {
@@ -59,7 +61,7 @@ export default defineEventHandler(async (event) => {
     if (checkIfUserExists.length > 0) {
       return {
         true: "no",
-        msg: "Oh no! This account exists",
+        msg: "OH NO, YOU HAVE GUESSED INTO SOMEONE'S ACCOUNT NAME 🫨",
       };
     }
     await sql`
@@ -83,23 +85,3 @@ export default defineEventHandler(async (event) => {
     };
   }
 });
-
-/**
- *
- await sql`
- CREATE TABLE IF NOT EXISTS auth (
-   uuid text primary key not null,
-   captcha_answer text not null,
-   video_json_data json not null
- )
- `;
-
- await sql`
- CREATE TABLE if not exists sessions (
-   uuid text primary key not null,
-   auth_uuid text not null,
-   username_uuid text not null
- )
- `;
-
- */

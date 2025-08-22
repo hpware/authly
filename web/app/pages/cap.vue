@@ -13,6 +13,8 @@ const totalSaveCount = ref(0);
 const router = useRouter();
 const uuid_data = ref();
 const captcha_data = ref();
+const error = ref();
+const errorMsg = ref();
 
 const sendData = (remoteData: any) => {
     videoData.value = remoteData;
@@ -25,12 +27,13 @@ const sendData = (remoteData: any) => {
 };
 onMounted(async () => {
     const checkSessionSystem = await CheckSession();
-    if (checkSessionSystem === true) {
+    if (checkSessionSystem.loggedin === true) {
         router.push("/bottle/");
     }
 });
 
 const submitData = async () => {
+    error.value = false;
     if (
         !(
             captcha_data.value &&
@@ -40,8 +43,23 @@ const submitData = async () => {
             )
         )
     ) {
-        // switch to text instead of alert pls
-        alert("No data or data error ig!");
+        error.value = true;
+        errorMsg.value = `there is nothing i can do, other than waiting you to enter all the data.`;
+        return;
+    }
+    const normalizedAnswer = captcha_data.value.toLowerCase().trim();
+    const validAnswers = [
+        "qin shi huang",
+        "qinshihuang",
+        "秦始皇",
+        "qin shi huangdi",
+        "qinshihuangdi",
+        "idk", // yeah some ppl just don't know this
+        "🐻‍❄️",
+    ];
+    if (!validAnswers.some((answer) => normalizedAnswer.includes(answer))) {
+        error.value = true;
+        errorMsg.value = `Huh, what even is this answer? You could've put in "idk" or "🐻‍❄️" as the answer`;
         return;
     }
     const req = await fetch("/api/ditchcopypaste", {
@@ -81,7 +99,6 @@ const submitData = async () => {
                 class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
                 v-model="uuid_data"
             />
-            <input type="text" class="text-md text-center" />
             <span class="text-md"
                 >To prevent bots, please answer the question below.</span
             >
@@ -94,7 +111,13 @@ const submitData = async () => {
                 class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
                 v-model="captcha_data"
             />
-            <button class="text-md" @click="submitData">Submit</button>
+            <span v-if="error" class="text-red-600">{{ errorMsg }}</span>
+            <button
+                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
+                @click="submitData"
+            >
+                Submit
+            </button>
             <div
                 class="flex flex-row justify-center text-center text-blue-700 gap-1"
             >

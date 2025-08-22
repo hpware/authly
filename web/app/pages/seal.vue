@@ -56,6 +56,7 @@ const submitSeal = async () => {
             "qin shi huangdi",
             "qinshihuangdi",
             "idk", // yeah some ppl just don't know this
+            "🐻‍❄️",
         ];
         if (!validAnswers.some((answer) => normalizedAnswer.includes(answer))) {
             error.value = true;
@@ -118,7 +119,7 @@ const submitSeal = async () => {
             />
             <span v-if="error" class="text-red-600">{{ errorHTML }}</span>
             <button
-                class="hover:cursor-pointer bg-gray-300 mx-auto w-fit p-2 rounded"
+                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
                 @click="submitSeal"
             >
                 Submit
