@@ -1,5 +1,6 @@
 import sql from "~/lib/pg";
 import { v4 as uuidv4 } from "uuid";
+import { videoJson, videoJson2 } from "../components/defaultVideoJson";
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   if (!body) {
@@ -51,6 +52,17 @@ export default defineEventHandler(async (event) => {
     return {
       true: "no",
       msg: "Whoops! You have seriously just entered something wrong!",
+    };
+  }
+  if (
+    !(
+      body.video_json_data !== JSON.stringify(videoJson) &&
+      body.video_json_data !== JSON.stringify(videoJson2)
+    )
+  ) {
+    return {
+      true: "no",
+      msg: "This is super insecure 💥💥 Please change it!",
     };
   }
   try {

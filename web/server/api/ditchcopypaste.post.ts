@@ -1,6 +1,7 @@
 // yes all the true: "no" is intentional
 import sql from "~/lib/pg";
 import { v4 as uuidv4 } from "uuid";
+import { videoJson, videoJson2 } from "../components/defaultVideoJson";
 export default defineEventHandler(async (event) => {
   try {
     const body = await readBody(event);
@@ -22,6 +23,17 @@ export default defineEventHandler(async (event) => {
       return {
         true: "no",
         msg: "Aww snap! You have seriously missed a bunch of important details!",
+      };
+    }
+    if (
+      !(
+        body.video_json_data !== JSON.stringify(videoJson) &&
+        body.video_json_data !== JSON.stringify(videoJson2)
+      )
+    ) {
+      return {
+        true: "no",
+        msg: "This is super insecure 💥💥 Please change it!",
       };
     }
     const normalizedAnswer = body.captcha_data.toLowerCase().trim();
@@ -53,7 +65,8 @@ export default defineEventHandler(async (event) => {
     if (
       !(
         userData[0].captcha_answer === body.captcha_data &&
-        userData[0].video_json_data === body.video_json_data
+        JSON.stringify(userData[0].video_json_data) ===
+          JSON.stringify(body.video_json_data)
       )
     ) {
       return {

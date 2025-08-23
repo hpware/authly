@@ -143,4 +143,3 @@ const submitSeal = async () => {
         />
     </div>
 </template>
-<!--psst, the answer is Qin Shi Huang or (秦始皇) both works-->
