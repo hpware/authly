@@ -120,4 +120,10 @@
     body {
         @apply bg-[#06202B] text-white text-foreground;
     }
+    .animate_fastest {
+        --animate-duration: 0.1s;
+    }
+    .animate_fast03 {
+        --animate-duration: 0.3s;
+    }
 }

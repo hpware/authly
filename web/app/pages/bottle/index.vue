@@ -6,6 +6,7 @@ definePageMeta({
     layout: "bottle",
 });
 import CheckSession from "~/lib/checkSession";
+import { RefreshCcw } from "lucide-vue-next";
 import {
     Table,
     TableBody,
@@ -63,6 +64,14 @@ const submitContent = async () => {};
                         <TableHead class="w-[40px]">Status</TableHead>
                         <TableHead>Date</TableHead>
                         <TableHead> TODO </TableHead>
+                        <TableHead class="text-right">
+                            <Transition
+                                enter-active-class="animate__animated animate__fadeInDown animate_fast03"
+                                leave-active-class="animate__animated animate__fadeOutUp animate_fast03"
+                            >
+                                <RefreshCcw />
+                            </Transition>
+                        </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
