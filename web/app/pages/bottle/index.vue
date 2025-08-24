@@ -17,6 +17,8 @@ import {
 } from "@/components/ui/table";
 const router = useRouter();
 const user = ref();
+const textContent = ref();
+const todoData = ref([]);
 onMounted(async () => {
     const checkSessionSystem = await CheckSession();
     if (checkSessionSystem.loggedin !== true) {
@@ -35,36 +37,44 @@ const logoutAction = async () => {
     }
     alert("logout failed");
 };
+const submitContent = async () => {};
 </script>
 <template>
     <div>
-        <div class="flex flex-col ml-4">
+        <h2>Todo manager!</h2>
+        <div class="flex flex-row ml-4">
             <span>Put your todos' here!</span>
-            <input type="text" />
+            <input
+                type="text"
+                class="ml-2 mr-2 my-2 border p-1"
+                v-model="textContent"
+            />
             <button
-                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
+                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 p-2 rounded text-black"
+                @click="submitContent"
             >
                 Submit!
             </button>
         </div>
-        <Table>
-            <TableCaption>A list of your recent invoices.</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead class="w-[100px]"> Invoice </TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Method</TableHead>
-                    <TableHead class="text-right"> Amount </TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                <TableRow>
-                    <TableCell class="font-medium"> INV001 </TableCell>
-                    <TableCell>Paid</TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell class="text-right"> $250.00 </TableCell>
-                </TableRow>
-            </TableBody>
-        </Table>
+        <div class="m-auto w-[80dvw] text-white dark">
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead class="w-[40px]">Status</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead> TODO </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow>
+                        <TableCell><input type="checkbox" /></TableCell>
+                        <TableCell>{{ new Date().toUTCString() }}</TableCell>
+                        <TableCell>
+                            idk idk idk idk idk idk idk idk idk idk idk idk idk
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
     </div>
 </template>

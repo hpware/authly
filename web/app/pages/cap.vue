@@ -102,7 +102,7 @@ const submitData = async () => {
                 Welcome to the bottle! Please login or
                 <a
                     href="/seal"
-                    class="text-blue-500 hover:text-blue-400 duration-300 transition-all"
+                    class="text-teal-300 hover:text-teal-200 duration-300 transition-all"
                     >signup</a
                 >
                 for an account!
@@ -110,7 +110,7 @@ const submitData = async () => {
             <span class="text-md">Please enter your UUID that you set.</span>
             <input
                 type="text"
-                class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
                 v-model="uuid_data"
             />
             <span class="text-md"
@@ -122,10 +122,10 @@ const submitData = async () => {
             >
             <input
                 type="text"
-                class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
                 v-model="captcha_data"
             />
-            <span v-if="error" class="text-red-600">{{ errorMsg }}</span>
+            <span v-if="error" class="text-red-300">{{ errorMsg }}</span>
             <button
                 class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
                 @click="submitData"
@@ -133,7 +133,7 @@ const submitData = async () => {
                 Submit
             </button>
             <div
-                class="flex flex-row justify-center text-center text-blue-700 gap-1"
+                class="flex flex-row justify-center text-center text-transparent bg-clip-text bg-gradient-to-tl from-blue-300 to-sky-400 gap-1"
             >
                 <span>Stats!</span>
                 <span>Total Videos: {{ totalVideoCount }}</span>
@@ -141,7 +141,7 @@ const submitData = async () => {
                 <span>Total Saves: {{ totalSaveCount }}</span>
             </div>
             <span
-                class="text-xs text-gray-100/50 hover:text-black duration-100 transition-all"
+                class="text-xs hover:text-gray-100/50 text-black duration-100 transition-all"
                 >psst, open the console to see the json!</span
             >
         </div>

@@ -12,7 +12,7 @@
                 >If you know how can I make the login system better, you can add
                 <a
                     href="https://github.com/hpware/authly/issues/new"
-                    class="hover:cursor-pointer text-black/90 hover:text-blue-500 underline transition-all duration-300"
+                    class="hover:cursor-pointer text-blue-300 hover:text-blue-200 underline transition-all duration-300"
                     >a GitHub Issue to the repo.</a
                 ></span
             >

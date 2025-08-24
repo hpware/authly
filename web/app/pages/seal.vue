@@ -60,7 +60,7 @@ const submitSeal = async () => {
         ];
         if (!validAnswers.some((answer) => normalizedAnswer.includes(answer))) {
             error.value = true;
-            errorHTML.value = `Huh, what even is this answer? You could've put in "idk" as the answer`;
+            errorHTML.value = `Huh, what even is this answer? You could've put in "idk" or "🐻‍❄️" as the answer`;
             return;
         }
         const req = await fetch("/api/register", {
@@ -93,12 +93,19 @@ const submitSeal = async () => {
         <div
             class="flex flex-col absolute inset-y-0 left-0 justify-center text-center w-1/2"
         >
-            <h2>Welcome to the bottle cap sealer!</h2>
+            <h2 class="text-2xl">Welcome to the bottle cap sealer!</h2>
             <span
-                >lease enter your uuid of choice! or
+                >lease enter your uuid of choice! Find one
+                <a
+                    href="https://everyuuid.com/"
+                    target="_blank"
+                    class="hover:cursor-pointer hover:text-blue-100 text-blue-300 transition-all duration-300"
+                    >here</a
+                >
+                or
                 <button
                     @click="generateUUID"
-                    class="hover:cursor-pointer hover:text-blue-300 text-blue-500 transition-all duration-300"
+                    class="hover:cursor-pointer hover:text-blue-100 text-blue-300 transition-all duration-300"
                 >
                     generate one
                 </button></span
@@ -106,7 +113,7 @@ const submitSeal = async () => {
             <input
                 type="text"
                 v-model="uuidEnter"
-                class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
             />
             <span class="text-md"
                 >Who is the "emperor" that has rode a polar bear in a popular
@@ -114,10 +121,10 @@ const submitSeal = async () => {
             </span>
             <input
                 type="text"
-                class="text-center text-gray-600 border mx-auto w-[70%] p-1 my-1 rounded"
+                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
                 v-model="captchaAnswer"
             />
-            <span v-if="error" class="text-red-600">{{ errorHTML }}</span>
+            <span v-if="error" class="text-red-300">{{ errorHTML }}</span>
             <button
                 class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
                 @click="submitSeal"
@@ -125,7 +132,7 @@ const submitSeal = async () => {
                 Submit
             </button>
             <div
-                class="flex flex-row justify-center text-center text-blue-700 gap-1"
+                class="flex flex-row justify-center text-center text-transparent bg-clip-text bg-gradient-to-tl from-blue-300 to-sky-400 gap-1"
             >
                 <span>Stats!</span>
                 <span>Total Videos: {{ totalVideoCount }}</span>
@@ -133,7 +140,7 @@ const submitSeal = async () => {
                 <span>Total Saves: {{ totalSaveCount }}</span>
             </div>
             <span
-                class="text-xs text-gray-100/50 hover:text-black duration-100 transition-all"
+                class="text-xs hover:text-gray-100/50 text-black duration-100 transition-all"
                 >psst, open the console to see the json!</span
             >
         </div>
