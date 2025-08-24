@@ -16,6 +16,12 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 const router = useRouter();
 const user = ref();
 const textContent = ref();
@@ -65,18 +71,33 @@ const submitContent = async () => {};
                         <TableHead>Date</TableHead>
                         <TableHead> TODO </TableHead>
                         <TableHead class="text-right">
-                            <Transition
-                                enter-active-class="animate__animated animate__fadeInDown animate_fast03"
-                                leave-active-class="animate__animated animate__fadeOutUp animate_fast03"
-                            >
-                                <RefreshCcw />
-                            </Transition>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <RefreshCcw :class="`animate-spin`" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Update TODOs</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     <TableRow>
-                        <TableCell><input type="checkbox" /></TableCell>
+                        <TableCell>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <input type="checkbox" />
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Finish Your tasks</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider></TableCell
+                        >
                         <TableCell>{{ new Date().toUTCString() }}</TableCell>
                         <TableCell>
                             idk idk idk idk idk idk idk idk idk idk idk idk idk

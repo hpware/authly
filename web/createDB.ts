@@ -21,6 +21,7 @@ create table if not exists bottle (
   uuid text primary key not null,
   for_user_uuid text not null,
   data text not null,
+  done boolean not null default false,
   created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 )
 `;

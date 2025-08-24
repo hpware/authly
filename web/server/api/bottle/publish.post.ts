@@ -2,6 +2,7 @@ import sql from "~/lib/pg";
 import checkSession from "~~/server/components/checkSession";
 export default defineEventHandler(async (event) => {
   const sessionCookie = getCookie(event, "session") || "";
+  const body = await readBody(event);
   if (
     !(
       sessionCookie.length !== 0 &&
@@ -20,6 +21,12 @@ export default defineEventHandler(async (event) => {
     return {
       true: "no",
       msg: "Yeah you shouldn't be here.",
+    };
+  }
+  if (!(body && body.action)) {
+    return {
+      true: "no",
+      msg: "yea please dont send nothing",
     };
   }
   try {

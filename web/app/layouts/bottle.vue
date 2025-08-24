@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import CheckSession from "~/lib/checkSession";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 const router = useRouter();
 const user = ref();
 onMounted(async () => {
@@ -30,19 +36,38 @@ const logoutAction = async () => {
             >
             <div class="gap-1 mr-2">
                 <span class="p-1 m-2">Hi, {{ user }}!</span>
-                <button
-                    class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-1 w-fit p-2 rounded text-black"
-                    @click="logoutAction"
-                >
-                    Logout
-                </button>
-                <NuxtLink href="/bottle/user">
-                    <button
-                        class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-1 w-fit p-2 rounded text-black"
-                    >
-                        Manage
-                    </button></NuxtLink
-                >
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <button
+                                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-1 w-fit p-2 rounded text-black"
+                                @click="logoutAction"
+                            >
+                                Logout
+                            </button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Logout your account</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <NuxtLink href="/bottle/user">
+                                <button
+                                    class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-1 w-fit p-2 rounded text-black"
+                                >
+                                    Manage
+                                </button></NuxtLink
+                            >
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Manage your user account</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             </div>
         </div>
         <!--MAIN APP-->
