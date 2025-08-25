@@ -13,27 +13,35 @@ export default defineEventHandler(async (event) => {
   ) {
     return {
       true: "no",
-      msg: "Yeah you shouldn't be here.",
+      msg: "Yeah you shouldn't be here. 🧐",
     };
   }
   const session = await checkSession(sessionCookie);
   if (session.loggedIn === false) {
     return {
       true: "no",
-      msg: "Yeah you shouldn't be here.",
+      msg: "Yeah you shouldn't be here. 🧐",
     };
   }
   if (!(body && body.action)) {
     return {
       true: "no",
-      msg: "yea please dont send nothing",
+      msg: "yea please dont send nothing 🪹",
     };
   }
   try {
+    if (body.action === "done") {
+    } else if (body.action === "submit") {
+    } else {
+      return {
+        true: "no",
+        msg: "this actions does not exist, please dice and find thje correct one 🎲",
+      };
+    }
   } catch (e) {
     return {
       true: "no",
-      msg: "no, this is not running, dont try refreshing",
+      msg: "no, this is not running, dont try refreshing ⛔",
     };
   }
 });
