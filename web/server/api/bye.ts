@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
       };
     }
     await sql`
-      DELETE FROM table_name
+      DELETE FROM sessions
       WHERE auth_uuid = ${session};
       `;
     deleteCookie(event, "session");
@@ -23,6 +23,7 @@ export default defineEventHandler(async (event) => {
       true: "yes",
     };
   } catch (e) {
+    console.error(e);
     return {
       true: "no",
     };

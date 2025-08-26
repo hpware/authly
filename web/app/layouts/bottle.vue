@@ -57,7 +57,7 @@ const logoutAction = async () => {
                         <TooltipTrigger>
                             <NuxtLink href="/bottle/user">
                                 <button
-                                    class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-1 w-fit p-2 rounded text-black"
+                                    class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-purple-300 to-green-200 hover:from-purple-400 hover:to-green-300 mx-1 w-fit p-2 rounded text-black"
                                 >
                                     Manage
                                 </button></NuxtLink

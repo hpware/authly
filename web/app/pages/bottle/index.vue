@@ -10,7 +10,6 @@ import { RefreshCcw } from "lucide-vue-next";
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -26,6 +25,20 @@ const router = useRouter();
 const user = ref();
 const textContent = ref();
 const todoData = ref([]);
+const updatingData = ref(false);
+
+const getData = async () => {
+    updatingData.value = true;
+    const req = await fetch("/api/bottle/get_data");
+    if (!req.ok) {
+        console.error("Request Failed!");
+        return;
+    }
+    const res = await req.json();
+    todoData.value = res;
+    updatingData.value = false;
+};
+
 onMounted(async () => {
     const checkSessionSystem = await CheckSession();
     if (checkSessionSystem.loggedin !== true) {
@@ -33,6 +46,8 @@ onMounted(async () => {
         return;
     }
     user.value = checkSessionSystem.user;
+    getData();
+    setInterval(getData, 10000);
 });
 
 const logoutAction = async () => {
@@ -44,7 +59,35 @@ const logoutAction = async () => {
     }
     alert("logout failed");
 };
-const submitContent = async () => {};
+const submitContent = async () => {
+    if (textContent.value.length === 0) {
+        alert("nothing is entered :(");
+        return;
+    }
+    try {
+        updatingData.value = true;
+        const req = await fetch("/api/bottle/publish", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: "submit",
+                content: textContent,
+            }),
+        });
+    } catch (e) {
+        console.log(e);
+    } finally {
+        updatingData.value = false;
+    }
+};
+
+const refreshContent = async () => {
+    getData();
+};
+
+const taskDone = async (event: Event) => {};
 </script>
 <template>
     <div>
@@ -57,7 +100,7 @@ const submitContent = async () => {};
                 v-model="textContent"
             />
             <button
-                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 p-2 rounded text-black"
+                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 rounded text-black"
                 @click="submitContent"
             >
                 Submit!
@@ -74,7 +117,11 @@ const submitContent = async () => {};
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <RefreshCcw :class="`animate-spin`" />
+                                        <button @click="refreshContent">
+                                            <RefreshCcw
+                                                :class="`${updatingData && 'animate-spin'}`"
+                                            />
+                                        </button>
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Update TODOs</p>
@@ -85,12 +132,20 @@ const submitContent = async () => {};
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow>
+                    <TableRow v-for="i in todoData">
                         <TableCell>
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <input type="checkbox" />
+                                        <input
+                                            type="checkbox"
+                                            @click="
+                                                (event) => {
+                                                    taskDone(event);
+                                                }
+                                            "
+                                            value="1"
+                                        />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>Finish Your tasks</p>
@@ -98,9 +153,11 @@ const submitContent = async () => {};
                                 </Tooltip>
                             </TooltipProvider></TableCell
                         >
-                        <TableCell>{{ new Date().toUTCString() }}</TableCell>
+                        <TableCell>{{
+                            new Date(i.date).toUTCString()
+                        }}</TableCell>
                         <TableCell>
-                            idk idk idk idk idk idk idk idk idk idk idk idk idk
+                            {{ i.text }}
                         </TableCell>
                     </TableRow>
                 </TableBody>
