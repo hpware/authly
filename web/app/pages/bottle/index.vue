@@ -28,15 +28,22 @@ const todoData = ref([]);
 const updatingData = ref(false);
 
 const getData = async () => {
-    updatingData.value = true;
-    const req = await fetch("/api/bottle/get_data");
-    if (!req.ok) {
-        console.error("Request Failed!");
+    try {
+        const req = await fetch("/api/bottle/get_data");
+        if (!req.ok) {
+            console.error("Request Failed!");
+            return;
+        }
+        const res = await req.json();
+        if (res.true !== "yes") {
+            console.error("Request Failed!");
+            return;
+        }
+        todoData.value = res.bottle;
+    } catch (e) {
+        console.log(e);
         return;
     }
-    const res = await req.json();
-    todoData.value = res;
-    updatingData.value = false;
 };
 
 onMounted(async () => {
@@ -84,7 +91,11 @@ const submitContent = async () => {
 };
 
 const refreshContent = async () => {
-    getData();
+    updatingData.value = true;
+    await getData();
+    setTimeout(() => {
+        updatingData.value = false;
+    }, 645);
 };
 
 const taskDone = async (event: Event) => {};
