@@ -4,10 +4,17 @@ export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   css: ["~/style.css"],
+
   vite: {
     plugins: [tailwindcss()],
   },
+
   routeRules: {
     "/": { redirect: "/cap" },
+  },
+
+  modules: ["shadcn-nuxt"],
+  shadcn: {
+    prefix: "",
   },
 });
