@@ -94,60 +94,18 @@ const submitData = async () => {
 };
 </script>
 <template>
-    <div class="">
-        <div
-            class="flex flex-col absolute inset-y-0 left-0 justify-center text-center w-1/2"
+    <div class="flex flex-col">
+        <h2>Welcome to the bottle! Please login or signup for an account!</h2>
+        <span
+            >Please doomscoll to match the pin code you set on the signup
+            process!</span
         >
-            <h2 class="text-xl">
-                Welcome to the bottle! Please login or
-                <a
-                    href="/seal"
-                    class="text-teal-300 hover:text-teal-200 duration-300 transition-all"
-                    >signup</a
-                >
-                for an account!
-            </h2>
-            <span class="text-md">Please enter your UUID that you set.</span>
-            <input
-                type="text"
-                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
-                v-model="uuid_data"
-            />
-            <span class="text-md"
-                >To prevent bots, please answer the question below.</span
-            >
-            <span class="text-sm"
-                >Who is the "emperor" that has rode a polar bear in a popular
-                meme?</span
-            >
-            <input
-                type="text"
-                class="text-center text-white border mx-auto w-[70%] p-1 my-1 rounded"
-                v-model="captcha_data"
-            />
-            <span v-if="error" class="text-red-300">{{ errorMsg }}</span>
-            <button
-                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-teal-300 to-blue-200 hover:from-teal-400 hover:to-blue-300 mx-auto w-fit p-2 rounded text-black"
-                @click="submitData"
-            >
-                Submit
-            </button>
-            <div
-                class="flex flex-row justify-center text-center text-transparent bg-clip-text bg-gradient-to-tl from-blue-300 to-sky-400 gap-1"
-            >
-                <span>Stats!</span>
-                <span>Total Videos: {{ totalVideoCount }}</span>
-                <span>Total Likes: {{ totalLikeVideoCount }}</span>
-                <span>Total Saves: {{ totalSaveCount }}</span>
-            </div>
-            <span
-                class="text-xs hover:text-gray-100/50 text-black duration-100 transition-all"
-                >psst, open the console to see the json!</span
-            >
-        </div>
-        <DoomScroll
-            class="max-w-1/2 absolute inset-y-0 right-0 mr-12"
-            @send-data="sendData"
-        />
+        <input type="text" placeholder="Please enter your uuid" />
+        <span>Swipe to your pin number!</span>
+        <span
+            >You are currently on the number
+            <span class="underline text-underline">0001</span></span
+        >
+        <button>Submit</button>
     </div>
 </template>

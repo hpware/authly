@@ -7,9 +7,6 @@ export default defineNuxtConfig({
 
   vite: {
     plugins: [tailwindcss()],
-    server: {
-      allowedHosts: ["postings-identify-thompson-cookie.trycloudflare.com"],
-    },
   },
 
   routeRules: {
