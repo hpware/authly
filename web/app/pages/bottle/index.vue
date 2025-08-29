@@ -72,7 +72,6 @@ const submitContent = async () => {
         return;
     }
     try {
-        updatingData.value = true;
         const req = await fetch("/api/bottle/publish", {
             method: "POST",
             headers: {
@@ -80,13 +79,18 @@ const submitContent = async () => {
             },
             body: JSON.stringify({
                 action: "submit",
-                content: textContent,
+                data: textContent.value,
             }),
         });
+        if (!req.ok) {
+            alert("failed");
+            return;
+        }
+        const res = await req.json();
     } catch (e) {
         console.log(e);
     } finally {
-        updatingData.value = false;
+        refreshContent();
     }
 };
 
@@ -98,7 +102,30 @@ const refreshContent = async () => {
     }, 645);
 };
 
-const taskDone = async (event: Event) => {};
+const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
+    try {
+        const req = await fetch("/api/bottle/publish", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                action: "done",
+                to: uuid,
+                data: !currentStatus,
+            }),
+        });
+        if (!req.ok) {
+            alert("failed");
+            return;
+        }
+        const res = await req.json();
+    } catch (e) {
+        console.log(e);
+    } finally {
+        refreshContent();
+    }
+};
 </script>
 <template>
     <div>
@@ -143,7 +170,10 @@ const taskDone = async (event: Event) => {};
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    <TableRow v-for="i in todoData">
+                    <TableRow
+                        v-for="i in todoData"
+                        :class="`${i.done && 'line-through'}`"
+                    >
                         <TableCell>
                             <TooltipProvider>
                                 <Tooltip>
@@ -152,10 +182,14 @@ const taskDone = async (event: Event) => {};
                                             type="checkbox"
                                             @click="
                                                 (event) => {
-                                                    taskDone(event);
+                                                    taskDone(
+                                                        event,
+                                                        i.uuid,
+                                                        i.done,
+                                                    );
                                                 }
                                             "
-                                            value="1"
+                                            :value="i.done"
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
@@ -165,10 +199,10 @@ const taskDone = async (event: Event) => {};
                             </TooltipProvider></TableCell
                         >
                         <TableCell>{{
-                            new Date(i.date).toUTCString()
+                            new Date(i.created_at).toUTCString()
                         }}</TableCell>
                         <TableCell>
-                            {{ i.text }}
+                            {{ i.data }}
                         </TableCell>
                     </TableRow>
                 </TableBody>

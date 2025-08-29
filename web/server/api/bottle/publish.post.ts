@@ -1,4 +1,5 @@
 import sql from "~/lib/pg";
+import { v4 as uuidv4 } from "uuid";
 import checkSession from "~~/server/components/checkSession";
 export default defineEventHandler(async (event) => {
   const sessionCookie = getCookie(event, "session") || "";
@@ -31,7 +32,49 @@ export default defineEventHandler(async (event) => {
   }
   try {
     if (body.action === "done") {
+      /***
+       action: "done",
+       to: uuid,
+       data: currentStatus,
+       */
+      if (
+        !(
+          body.to.length !== 0 &&
+          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+            body.to,
+          ) &&
+          typeof body.data.isboolean === "boolean"
+        )
+      ) {
+        return {
+          true: "no",
+          msg: "are you trying to use another client to send actions 🧐 you are missing a json col or used something wrong.",
+        };
+      }
+      await sql`
+        update bottle
+        set done = ${body.data}
+        where data = ${body.to}
+        `;
+      return {
+        true: "yes",
+        msg: null,
+      };
     } else if (body.action === "submit") {
+      if (!body.data) {
+        return {
+          true: "no",
+          msg: "are you trying to use another client to send actions 🧐 you are missing a json col.",
+        };
+      }
+      await sql`
+        INSERT INTO bottle (uuid, for_user_uuid, data)
+        values (${uuidv4()}, ${session.user}, ${body.data})
+        `;
+      return {
+        true: "yes",
+        msg: null,
+      };
     } else {
       return {
         true: "no",
@@ -39,6 +82,7 @@ export default defineEventHandler(async (event) => {
       };
     }
   } catch (e) {
+    console.error(e);
     return {
       true: "no",
       msg: "no, this is not running, dont try refreshing ⛔",
