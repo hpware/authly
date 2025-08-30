@@ -37,23 +37,23 @@ export default defineEventHandler(async (event) => {
        to: uuid,
        data: currentStatus,
        */
-      if (
-        !(
-          body.to.length !== 0 &&
-          /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
-            body.to,
-          ) &&
-          typeof body.data.isboolean === "boolean"
-        )
-      ) {
+      const isValidUUID =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const isValidInput =
+        body.to?.length > 0 &&
+        isValidUUID.test(body.to) &&
+        typeof body.data === "boolean";
+
+      if (!isValidInput) {
         return {
-          true: "no",
-          msg: "are you trying to use another client to send actions 🧐 you are missing a json col or used something wrong.",
+          success: false,
+          message:
+            "Invalid input: Please ensure you're providing a valid UUID and boolean value",
         };
       }
       await sql`
         update bottle
-        set done = ${body.data}
+        set done = ${!body.data}
         where data = ${body.to}
         `;
       return {

@@ -91,7 +91,7 @@ const submitContent = async () => {
         console.log(e);
     } finally {
         refreshContent();
-      textContent.value = "";
+        textContent.value = "";
     }
 };
 
