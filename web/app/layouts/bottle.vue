@@ -60,9 +60,7 @@ const logoutAction = async () => {
         <div class="hidden md:block">
             <!--NAV-->
             <div class="flex flex-row justify-between p-2 m-2">
-                <NuxtLink href="/bottle/"
-                    ><h1 class="text-3xl">The Bottle!</h1></NuxtLink
-                >
+                <div></div>
                 <div class="gap-1 mr-2">
                     <span class="p-1 m-2">Hi, {{ user }}!</span>
                     <TooltipProvider>

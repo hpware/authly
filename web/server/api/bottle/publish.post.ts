@@ -51,10 +51,11 @@ export default defineEventHandler(async (event) => {
             "Invalid input: Please ensure you're providing a valid UUID and boolean value",
         };
       }
+      console.log(body);
       await sql`
         update bottle
-        set done = ${!body.data}
-        where data = ${body.to}
+        set done = ${body.data}
+        where uuid = ${body.to}
         `;
       return {
         true: "yes",

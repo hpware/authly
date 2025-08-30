@@ -113,7 +113,7 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
             body: JSON.stringify({
                 action: "done",
                 to: uuid,
-                data: !currentStatus,
+                data: (event.target as HTMLInputElement).checked,
             }),
         });
         if (!req.ok) {
@@ -129,24 +129,36 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
 };
 </script>
 <template>
-    <div>
-        <h2>Todo manager!</h2>
-        <div class="flex flex-row ml-4">
-            <span>Put your todos' here!</span>
-            <input
-                type="text"
-                class="ml-2 mr-2 my-2 border p-1"
-                v-model="textContent"
-            />
-            <button
-                class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 rounded text-black"
-                @click="submitContent"
-            >
-                Submit!
-            </button>
+    <div class="flex flex-row gap-1">
+        <div class="mx-4">
+            <div class="flex flex-col ml-4 mt-4">
+                <span>Please enter your todo!</span>
+                <input
+                    type="text"
+                    class="ml-2 mr-2 my-2 border p-1 rounded"
+                    v-model="textContent"
+                />
+                <button
+                    class="transition-all duration-500 w-full hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 rounded text-black"
+                    @click="submitContent"
+                >
+                    Submit!
+                </button>
+            </div>
+            <hr class="my-3 p-1" />
+            <div class="fle flex-col">
+                <span>wanna change your really hard password</span>
+                <NuxtLink href="/bottle/password">
+                    <button
+                        class="transition-all w-full duration-500 hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 m-2 rounded text-black"
+                    >
+                        change here!
+                    </button></NuxtLink
+                >
+            </div>
         </div>
-        <div class="m-auto w-[80dvw] text-white dark">
-            <Table>
+        <div class="m-auto w-[80dvw] text-white px-4 dark">
+            <Table class="dark">
                 <TableHeader>
                     <TableRow>
                         <TableHead class="w-[40px]">Status</TableHead>
@@ -190,7 +202,7 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                                                     );
                                                 }
                                             "
-                                            :value="i.done"
+                                            :checked="i.done"
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
