@@ -1,4 +1,5 @@
 # DoomscollAuth
+![](https://status.yhw.tw/badge/doomscrollauth/uptime?labelColor=333&color=4699ba&style=for-the-badge&label=Uptime&sinceLast=7776000&hideDuration=true)
 >[!NOTE]
 > Most of the code is stored in the `~/web` dir. Please go there to view the source code.
 
