@@ -142,9 +142,8 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
     <div class="flex flex-row gap-1">
         <div class="mx-4">
             <div class="flex flex-col ml-4 mt-4">
-                <span>Please enter your todo!</span>
-                <input
-                    type="text"
+                <span>Please enter your note!</span>
+                <textarea
                     class="ml-2 mr-2 my-2 border p-1 rounded"
                     v-model="textContent"
                 />
@@ -173,36 +172,34 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
             </div>
         </div>
         <div class="m-auto w-[80dvw] text-white px-4 dark">
-            <Table class="dark">
-                <TableHeader>
-                    <TableRow>
-                        <TableHead class="w-[40px]">Status</TableHead>
-                        <TableHead class="w-[100px]">Date</TableHead>
-                        <TableHead> TODO </TableHead>
-                        <TableHead class="text-right">
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <button @click="refreshContent">
-                                            <RefreshCcw
-                                                :class="`${updatingData && 'animate-spin'}`"
-                                            />
-                                        </button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Update TODOs</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                        </TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <TableRow
-                        v-for="i in todoData"
-                        :class="`${i.done && 'line-through'}`"
+            <div class="align-right justify-between flex flex-row mr-5">
+                <div></div>
+                <TooltipProvider>
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <button @click="refreshContent">
+                                <RefreshCcw
+                                    :class="`${updatingData && 'animate-spin'}`"
+                                />
+                            </button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            <p>Update TODOs</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
+            </div>
+            <div
+                class="grid text-left justify-left items-left grid-cols-1 md:grid-cols-3 gap-2"
+            >
+                <div
+                    v-for="i in todoData"
+                    :class="`${i.done && 'line-through'}`"
+                >
+                    <div
+                        class="bg-white/70 text-black shadow-lg backdrop-blur-xl rounded text-wrap flex-wrap w-[250px] h-[200px] flex flex-col text-left justify-left items-left p-1"
                     >
-                        <TableCell>
+                        <h2 class="text-xl">
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger>
@@ -230,21 +227,17 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
-                            </TooltipProvider></TableCell
-                        >
-                        <TableCell class="w-[100px]">{{
-                            new Date(i.created_at).toLocaleString("zh-TW")
-                        }}</TableCell>
-                        <TableCell>
-                            {{ i.data }}
-                        </TableCell>
-                    </TableRow>
-                </TableBody>
-            </Table>
+                            </TooltipProvider>
+                            {{ new Date(i.created_at).toLocaleString("zh-TW") }}
+                        </h2>
+                        <span class="text-wrap flex-wrap">{{ i.data }}</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <div
-        class="absolute bottom-0 inset-x-0 justify-center align-center m-auto w-fit text-gray-500 pb-1"
+        class="fixed bottom-0 inset-x-0 justify-center align-center m-auto w-fit text-gray-500 pb-1"
     >
         Last Updated at: {{ lastUpdatedAt }}
     </div>
