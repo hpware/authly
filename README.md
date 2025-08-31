@@ -4,7 +4,7 @@
 >[!NOTE]
 > Most of the code is stored in the `~/web` dir. Please go there to view the source code.
 
-This is a application that uses doomscrolling behavior as auth, such as which posts you liked, saved and the current playing. For the Authly YSWS!
+This is an application that uses doomscrolling behavior as auth, such as which posts you liked, saved and the current playing. For the Authly YSWS!
 
 ## The stack
 This application uses Nuxt, Postgres, Tailwind and Bun.
