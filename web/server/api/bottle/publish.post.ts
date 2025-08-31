@@ -1,6 +1,7 @@
 import sql from "~/lib/pg";
 import { v4 as uuidv4 } from "uuid";
 import checkSession from "~~/server/components/checkSession";
+import { videoJson, videoJson2 } from "../../components/defaultVideoJson";
 export default defineEventHandler(async (event) => {
   const sessionCookie = getCookie(event, "session") || "";
   const body = await readBody(event);
@@ -76,10 +77,44 @@ export default defineEventHandler(async (event) => {
         true: "yes",
         msg: null,
       };
+    } else if (body.action === "changepwd") {
+      if (!(body.data && body.captcha_data)) {
+        return {
+          true: "no",
+          msg: "are you trying to use another client to send actions 🧐 you are missing a json col.",
+        };
+      }
+
+      if (
+        !(
+          JSON.stringify(body.video_json_data) !== JSON.stringify(videoJson) &&
+          JSON.stringify(body.video_json_data) !== JSON.stringify(videoJson2)
+        )
+      ) {
+        return {
+          true: "no",
+          msg: "This is super insecure 💥💥 Please change it!",
+        };
+      }
+      const getUserInfo = await sql`
+        SELECT * FROM auth
+        WHERE uuid = ${session.user}
+        `;
+      if (getUserInfo[0].captcha_answer !== body.captcha_data) {
+        return {
+          true: "no",
+          msg: "oh shoot, you got your own captcha qs wrong. please try again.",
+        };
+      }
+      await sql`
+        UPDATE auth
+        set video_json_data = ${JSON.stringify(body.data)}
+        where uuid = ${session.user}
+        `;
     } else {
       return {
         true: "no",
-        msg: "this actions does not exist, please dice and find thje correct one 🎲",
+        msg: "this actions does not exist, please dice and find the correct one 🎲",
       };
     }
   } catch (e) {

@@ -27,8 +27,8 @@ export default defineEventHandler(async (event) => {
     }
     if (
       !(
-        body.video_json_data !== JSON.stringify(videoJson) &&
-        body.video_json_data !== JSON.stringify(videoJson2)
+        JSON.stringify(body.video_json_data) !== JSON.stringify(videoJson) &&
+        JSON.stringify(body.video_json_data) !== JSON.stringify(videoJson2)
       )
     ) {
       return {

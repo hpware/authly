@@ -53,15 +53,15 @@ const submitData = async () => {
             errorMsg.value = `Huh, what even is this answer? You could've put in "idk" or "🐻‍❄️" as the answer`;
             return;
         }
-        const req = await fetch("/api/ditchcopypaste", {
+        const req = await fetch("/api/bottle/publish", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                username: uuid_data.value,
+                action: "changepwd",
                 captcha_data: captcha_data.value,
-                video_json_data: videoData.value,
+                data: videoData.value,
             }),
         });
         if (!req.ok) {

@@ -25,7 +25,10 @@ const router = useRouter();
 const user = ref();
 const textContent = ref();
 const todoData = ref([]);
+const error = ref(false);
+const errorMsg = ref();
 const updatingData = ref(false);
+const lastUpdatedAt = ref();
 
 const getData = async () => {
     try {
@@ -43,6 +46,8 @@ const getData = async () => {
     } catch (e) {
         console.log(e);
         return;
+    } finally {
+        lastUpdatedAt.value = new Date().toLocaleTimeString("zh-TW");
     }
 };
 
@@ -67,8 +72,10 @@ const logoutAction = async () => {
     alert("logout failed");
 };
 const submitContent = async () => {
-    if (textContent.value.length === 0) {
-        alert("nothing is entered :(");
+    error.value = false;
+    if (!textContent.value) {
+        error.value = true;
+        errorMsg.value = "nothing is entered :(";
         return;
     }
     try {
@@ -83,12 +90,15 @@ const submitContent = async () => {
             }),
         });
         if (!req.ok) {
-            alert("failed");
+            error.value = true;
+            errorMsg.value = "i hope it is just a network issue";
             return;
         }
         const res = await req.json();
     } catch (e) {
         console.log(e);
+        error.value = true;
+        errorMsg.value = "oh no! something really went south";
     } finally {
         refreshContent();
         textContent.value = "";
@@ -138,6 +148,11 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                     class="ml-2 mr-2 my-2 border p-1 rounded"
                     v-model="textContent"
                 />
+                <span
+                    v-if="error"
+                    class="text-red-300 mb-2 text-center justify-center"
+                    >{{ errorMsg }}</span
+                >
                 <button
                     class="transition-all duration-500 w-full hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 rounded text-black"
                     @click="submitContent"
@@ -162,7 +177,7 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                 <TableHeader>
                     <TableRow>
                         <TableHead class="w-[40px]">Status</TableHead>
-                        <TableHead>Date</TableHead>
+                        <TableHead class="w-[100px]">Date</TableHead>
                         <TableHead> TODO </TableHead>
                         <TableHead class="text-right">
                             <TooltipProvider>
@@ -206,13 +221,19 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
-                                        <p>Finish Your tasks</p>
+                                        <p>
+                                            {{
+                                                !i.done
+                                                    ? "Finish Your tasks"
+                                                    : "Un Finish Your tasks"
+                                            }}
+                                        </p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider></TableCell
                         >
-                        <TableCell>{{
-                            new Date(i.created_at).toUTCString()
+                        <TableCell class="w-[100px]">{{
+                            new Date(i.created_at).toLocaleString("zh-TW")
                         }}</TableCell>
                         <TableCell>
                             {{ i.data }}
@@ -221,5 +242,10 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                 </TableBody>
             </Table>
         </div>
+    </div>
+    <div
+        class="absolute bottom-0 inset-x-0 justify-center align-center m-auto w-fit text-gray-500 pb-1"
+    >
+        Last Updated at: {{ lastUpdatedAt }}
     </div>
 </template>

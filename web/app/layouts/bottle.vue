@@ -60,9 +60,23 @@ const logoutAction = async () => {
         <div class="hidden md:block">
             <!--NAV-->
             <div class="flex flex-row justify-between p-2 m-2">
-                <div></div>
                 <div class="gap-1 mr-2">
-                    <span class="p-1 m-2">Hi, {{ user }}!</span>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <NuxtLink href="/bottle">
+                                    <button
+                                        class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-purple-300 to-green-200 hover:from-purple-400 hover:to-green-300 mx-1 w-fit p-2 rounded text-black"
+                                    >
+                                        Home
+                                    </button></NuxtLink
+                                >
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Go back to home :)</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger>
@@ -78,23 +92,7 @@ const logoutAction = async () => {
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
-
-                    <!--<TooltipProvider>
-        <Tooltip>
-            <TooltipTrigger>
-                <NuxtLink href="/bottle/user">
-                    <button
-                        class="transition-all duration-500 hover:cursor-pointer bg-gradient-to-bl from-purple-300 to-green-200 hover:from-purple-400 hover:to-green-300 mx-1 w-fit p-2 rounded text-black"
-                    >
-                        Manage
-                    </button></NuxtLink
-                >
-            </TooltipTrigger>
-            <TooltipContent>
-                <p>Manage your user account</p>
-            </TooltipContent>
-        </Tooltip>
-    </TooltipProvider>-->
+                    <span class="p-1 m-2">Hi, {{ user }}!</span>
                 </div>
             </div>
             <!--MAIN APP-->
