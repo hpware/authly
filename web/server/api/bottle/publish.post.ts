@@ -111,6 +111,10 @@ export default defineEventHandler(async (event) => {
         set video_json_data = ${JSON.stringify(body.data)}
         where uuid = ${session.user}
         `;
+      return {
+        true: "yes",
+        msg: null,
+      };
     } else {
       return {
         true: "no",

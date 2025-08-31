@@ -339,12 +339,10 @@ onMounted(() => {
                     </button>
                 </div>
                 <div
-                    class="bg-transparent p-2 rounded-full hover:bg-white/10 text-white fill-white"
+                    class="bg-transparent p-2 rounded-full text-white fill-white"
                 >
-                    <button>
-                        <Play v-if="video.current" />
-                        <Pause v-else />
-                    </button>
+                    <Play v-if="video.current" />
+                    <Pause v-else />
                 </div>
             </div>
         </div>

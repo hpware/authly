@@ -59,7 +59,7 @@ const logoutAction = async () => {
     <div v-else>
         <div class="hidden md:block">
             <!--NAV-->
-            <div class="flex flex-row justify-between p-2 m-2">
+            <div class="flex flex-row justify-between p-2 m-2 z-50">
                 <div class="gap-1 mr-2">
                     <TooltipProvider>
                         <Tooltip>

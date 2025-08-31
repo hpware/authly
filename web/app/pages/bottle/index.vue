@@ -161,8 +161,8 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                 </button>
             </div>
             <hr class="my-3 p-1" />
-            <div class="fle flex-col">
-                <span>wanna change your really hard password</span>
+            <div class="flex flex-col ml-2">
+                <span>wanna change your really hard auth?</span>
                 <NuxtLink href="/bottle/password">
                     <button
                         class="transition-all w-full duration-500 hover:cursor-pointer bg-gradient-to-bl from-cyan-300 to-red-200 hover:from-cyan-400 hover:to-red-300 p-2 m-2 rounded text-black"
