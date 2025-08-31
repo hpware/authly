@@ -190,48 +190,58 @@ const taskDone = async (event: Event, uuid: string, currentStatus: boolean) => {
                 </TooltipProvider>
             </div>
             <div
-                class="grid text-left justify-left items-left grid-cols-1 md:grid-cols-3 gap-2"
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"
             >
                 <div
-                    v-for="i in todoData"
-                    :class="`${i.done && 'line-through'}`"
+                    v-for="item in todoData"
+                    :key="item.uuid"
+                    class="relative rounded-lg shadow-md backdrop-blur-xl bg-white/70 p-4 transition-all duration-200 ease-in-out"
+                    :class="{ 'line-through opacity-70': item.done }"
                 >
-                    <div
-                        class="bg-white/70 text-black shadow-lg backdrop-blur-xl rounded text-wrap flex-wrap w-[250px] h-[200px] flex flex-col text-left justify-left items-left p-1"
-                    >
-                        <h2 class="text-xl">
+                    <div class="flex items-center justify-between mb-2">
+                        <h2 class="text-lg font-semibold text-gray-800">
                             <TooltipProvider>
                                 <Tooltip>
-                                    <TooltipTrigger>
+                                    <TooltipTrigger as-child>
                                         <input
                                             type="checkbox"
-                                            @click="
-                                                (event) => {
+                                            class="form-checkbox h-5 w-5 text-indigo-600 rounded mr-2"
+                                            :checked="item.done"
+                                            @change="
+                                                (event) =>
                                                     taskDone(
                                                         event,
-                                                        i.uuid,
-                                                        i.done,
-                                                    );
-                                                }
+                                                        item.uuid,
+                                                        item.done,
+                                                    )
                                             "
-                                            :checked="i.done"
                                         />
                                     </TooltipTrigger>
                                     <TooltipContent>
                                         <p>
                                             {{
-                                                !i.done
+                                                !item.done
                                                     ? "Finish Your tasks"
-                                                    : "Un Finish Your tasks"
+                                                    : "Unfinish Your tasks"
                                             }}
                                         </p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                            {{ new Date(i.created_at).toLocaleString("zh-TW") }}
                         </h2>
-                        <span class="text-wrap flex-wrap">{{ i.data }}</span>
+                        <span class="text-sm text-gray-500">
+                            {{
+                                new Date(item.created_at).toLocaleString(
+                                    "zh-TW",
+                                )
+                            }}
+                        </span>
                     </div>
+                    <p
+                        class="text-gray-700 leading-relaxed whitespace-pre-wrap"
+                    >
+                        {{ item.data }}
+                    </p>
                 </div>
             </div>
         </div>
