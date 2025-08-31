@@ -1,4 +1,4 @@
-# DoomscollAuth
+# DoomscrollAuth
 ![](https://status.yhw.tw/badge/doomscrollauth/uptime?labelColor=333&color=4699ba&style=for-the-badge&label=Uptime&sinceLast=7776000&hideDuration=true)
 
 >[!NOTE]
